@@ -1,6 +1,7 @@
 package com.silosense.app
 
 import android.content.Context
+import android.os.BatteryManager
 import android.os.Build
 import android.os.Debug
 import android.os.PowerManager
@@ -42,5 +43,21 @@ object DeviceDiagnostics {
             PowerManager.THERMAL_STATUS_SHUTDOWN -> "SHUTDOWN"
             else -> "UNKNOWN"
         }
+    }
+
+    /**
+     * Instantaneous battery current draw in microamps, read via Android's
+     * BatteryManager API from inside the app process. Unlike
+     * /sys/class/power_supply/battery/current_now (confirmed Permission
+     * denied for the shell user on this device), app-level access goes
+     * through the framework, not raw sysfs, so it isn't blocked the same
+     * way. Returns null if the device doesn't support this property
+     * (Int.MIN_VALUE) rather than a fabricated number — callers must report
+     * that explicitly instead of silently falling back.
+     */
+    fun currentDrawMicroamps(context: Context): Int? {
+        val bm = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager ?: return null
+        val value = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CURRENT_NOW)
+        return if (value == Int.MIN_VALUE) null else value
     }
 }

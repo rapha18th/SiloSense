@@ -192,6 +192,23 @@ class SiloSenseClassifier(context: Context, modelAsset: String = "silosense_int8
         )
     }
 
+    /**
+     * Runs inference back-to-back for [durationMs], no timing or warm-up
+     * discipline — this exists purely to create a real, sustained load for
+     * battery current-draw sampling (see DeviceDiagnostics.currentDrawMicroamps),
+     * not to produce a latency number. Returns the number of inferences
+     * completed in that window, for context.
+     */
+    fun stressRun(features: Array<FloatArray>, durationMs: Long): Int {
+        val end = System.nanoTime() + durationMs * 1_000_000
+        var count = 0
+        while (System.nanoTime() < end) {
+            runOnce(features)
+            count++
+        }
+        return count
+    }
+
     /** Repeated timed inference on the same real (already-extracted) features, warm-up discarded — this produces the reportable on-device benchmark number. */
     fun benchmark(features: Array<FloatArray>, warmupRuns: Int = 5, timedRuns: Int = 20): BenchmarkResult {
         repeat(warmupRuns) { runOnce(features) }

@@ -14,4 +14,5 @@
     <string name="source_dialog_close">Close</string>
     <string name="results_link">Full results</string>
     <string name="results_dialog_title">Full results</string>
+    <string name="battery_link">Battery test</string>
 </resources>

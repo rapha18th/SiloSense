@@ -27,10 +27,10 @@ android/captures/
 android/.cxx/
 *.log
 
-# Real infested-grain audio bundled for the legacy Termux demo path (kept
-# on disk, not tracked — same reasoning as the raw SPID/ESC-50 audio above)
-legacy_termux_proot/phone_package/data/clips/
-legacy_termux_proot/phone_package.zip
+# Superseded Termux/proot prototype and the submission writeup generator —
+# neither is code the app ships, kept on disk locally, not tracked.
+legacy_termux_proot/
+submission/
 
 # Session-handoff/narrative documents, not code — see NEXT_STEPS.md itself
 # for why these stay local-only.
@@ -39,10 +39,6 @@ legacy_termux_proot/phone_package.zip
 *.pdf
 NEXT_STEPS.md
 PORTING_NOTES.md
-
-# npm (submission/generate_writeup.js's docx dependency) — package.json and
-# package-lock.json are tracked, node_modules/ is not.
-node_modules/
 
 # Claude Code session state, not project content.
 .claude/

@@ -170,6 +170,24 @@
             android:textColor="@color/silo_text_tertiary"
             android:textSize="12sp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="·"
+            android:textColor="@color/silo_text_tertiary"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/batteryLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="8dp"
+            android:text="@string/battery_link"
+            android:textColor="@color/silo_text_tertiary"
+            android:textSize="12sp" />
+
     </LinearLayout>
 
     <Button

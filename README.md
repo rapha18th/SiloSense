@@ -2,9 +2,23 @@
 
 On-device, Arm-optimized audio classifier for stored-grain insect infestation. Built for the **Arm Create: AI Optimization Challenge 2026** (Mobile AI track).
 
-Postharvest grain loss in Zimbabwe and the wider SADC region runs at 30% or more in many years, and most of it is invisible until the damage is already visible. SiloSense listens instead of looking: insects moving through stored grain produce a real acoustic signature, well before any visual sign of damage. The whole pipeline, from a 1.5-second recording to a result, runs on-device, offline, on an ordinary Android phone.
+## Why this matters
 
-This README documents the code. For the fuller problem framing, a field scenario, and the full benchmark writeup with real measured Arm hardware data, see the submission document (not tracked in this repo; generated locally from `submission/generate_writeup.js`).
+Postharvest grain loss in Zimbabwe and the wider SADC region runs at 30% or more in many years. Most of it is invisible until the damage is already visible: frass, holes, a musty smell. By the time any of those show up, a meaningful share of the harvest is already gone.
+
+Most grain production in the region comes from smallholder farmers. They store their own maize, groundnuts, and small grains at home, or sell through informal traders. The storage is a sack or a brick-and-mud room, not a sealed commercial silo. Extension visits and lab testing rarely reach that scale.
+
+Weevils and grain borers work from inside the kernel outward. The damage stays hidden for weeks before it's obvious by eye. This matters most in years when rainfall has already been poor: postharvest loss erases part of whatever the season's climate variability left standing. Protecting a harvest that already exists is one of the highest-leverage interventions available against food insecurity. The crop is already grown. The only job left is to stop losing it.
+
+SiloSense treats infestation detection as an audio problem instead of a visual one. Insects moving and feeding inside stored grain produce a real acoustic signature, present weeks before any visual sign of damage. A phone's microphone held against a sack picks it up long before a human eye could.
+
+Three choices make this usable in the places that need it most:
+
+- Fully on-device. No connection, no data cost, nothing to upload.
+- Runs on hardware people already own, an ordinary Android phone. No added sensor, no added cost.
+- Private by construction. Audio never leaves the phone.
+
+The whole pipeline, from a 1.5-second recording to a result, runs on-device, offline, in under two seconds.
 
 ## Architecture
 
@@ -76,7 +90,9 @@ Registering NNAPI as an execution provider is not the same as NNAPI running a no
 
 Model load time is also measured directly, not assumed: FP32 loads in 8.9ms; INT8 loads in 472.4ms, about 50x slower despite being a third of the size, most likely because NNAPI/XNNPACK compile the QDQ quantized graph into their own representation on first load. INT8 wins decisively on steady-state latency and size. It does not win on cold start, on this device. Reported because it's true, not smoothed over.
 
-Also measured, not assumed: process memory (PSS) at baseline (47,829 KB), after both models load (126,554 KB, +78,725 KB), and after the benchmark run (149,185 KB, +22,631 KB more); and thermal status via `PowerManager` immediately before and after the benchmark (`NONE` both times: real but narrow evidence against throttling during this specific short run, not a claim about sustained use). Battery drain was not measured; that needs a sustained multi-minute load test this session didn't run.
+Also measured, not assumed: process memory (PSS) at baseline (47,829 KB), after both models load (126,554 KB, +78,725 KB), and after the benchmark run (149,185 KB, +22,631 KB more); and thermal status via `PowerManager` immediately before and after the benchmark (`NONE` both times: real but narrow evidence against throttling during this specific short run, not a claim about sustained use).
+
+Battery drain is measured too, via `BatteryManager.getIntProperty(BATTERY_PROPERTY_CURRENT_NOW)` read from inside the app process (`/sys/class/power_supply/battery/current_now` is blocked, `Permission denied`, for the shell user on this device). Off USB power: idle baseline averaged -149,400 uA over 30s (15 samples), sustained INT8 inference averaged -332,437 uA over 60s (30 samples, 66,181 inferences run), a marginal delta of -183,037 uA (~183mA). That load rate, ~1,100 predictions/sec, is a synthetic stress test, not the app's real usage pattern of one prediction per ~1.5s recording — so this is a worst-case upper bound on drain, not a typical-use estimate.
 
 ## Porting & parity
 
@@ -95,10 +111,10 @@ cd android
 |---|---|
 | `AudioFeatures.kt` | Log-mel feature extraction, pure Kotlin, verified against `features.py` |
 | `SiloSenseClassifier.kt` | Wraps an ONNX Runtime session per model (INT8 for live predictions, FP32 loaded separately for benchmarking), execution-provider profiling, benchmark timing |
-| `DeviceDiagnostics.kt` | Real process memory (PSS) and thermal-status readings via Android's own APIs |
-| `MainActivity.kt` | Record → classify → three-tier result UI, plus Source and Full Results dialogs |
+| `DeviceDiagnostics.kt` | Real process memory (PSS), thermal-status, and battery current-draw readings via Android's own APIs |
+| `MainActivity.kt` | Record → classify → three-tier result UI, plus Source, Full Results, and Battery test dialogs |
 
-The three-tier result (Likely Clean / Uncertain / Likely Infested) isn't a 50% cutoff. The bounds (0.45 / 0.65) come from where the model's own validation data stops separating cleanly: true clean clips top out at P(infested)=0.492, true infested clips start at 0.643. There is no external standard behind this threshold; see the submission writeup's Open Problems section for what it would take to calibrate against a real grain-grading standard.
+The three-tier result (Likely Clean / Uncertain / Likely Infested) isn't a 50% cutoff. The bounds (0.45 / 0.65) come from where the model's own validation data stops separating cleanly: true clean clips top out at P(infested)=0.492, true infested clips start at 0.643. There is no external standard behind this threshold. Real grading standards speak in insects per kilogram or percent insect-damaged kernels, not model confidence, and this model has never been trained or evaluated against either unit. Calibrating against a real standard, such as Zimbabwe's Grain Marketing Board thresholds, is open work, not a claim made here.
 
 ```mermaid
 sequenceDiagram
@@ -139,14 +155,6 @@ python scripts/train.py
 python scripts/quantize.py
 ```
 
-To regenerate the submission writeup (Node, `docx` package):
-
-```bash
-cd submission
-npm install docx
-node generate_writeup.js
-```
-
 ## Project structure
 
 ```
@@ -159,8 +167,6 @@ android/               native Android app (Kotlin)
     MainActivity.kt          UI
   app/src/test/kotlin/       Python-vs-Kotlin feature parity test
 models/                trained FP32/INT8 .onnx models + metrics + x86 cross-check
-legacy_termux_proot/   archived Termux/proot deployment attempt (superseded by android/)
-submission/            submission writeup generator (docx)
 ```
 
 ## License

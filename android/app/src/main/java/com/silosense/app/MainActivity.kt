@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sampleLink: TextView
     private lateinit var sourceLink: TextView
     private lateinit var resultsLink: TextView
+    private lateinit var batteryLink: TextView
 
     private var int8Classifier: SiloSenseClassifier? = null
     private var fp32Classifier: SiloSenseClassifier? = null
@@ -65,6 +66,16 @@ class MainActivity : AppCompatActivity() {
     private var int8ProviderSummary: String? = null
     private var fp32ProviderSummary: String? = null
 
+    private data class BatteryTestResult(
+        val idleSamplesUa: List<Int>,
+        val loadedSamplesUa: List<Int>,
+        val inferencesRun: Int,
+        val unsupported: Boolean,
+    )
+
+    private var batteryResult: BatteryTestResult? = null
+    private var batteryTestRunning = false
+
     private var busy = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,6 +90,7 @@ class MainActivity : AppCompatActivity() {
         sampleLink = findViewById(R.id.sampleLink)
         sourceLink = findViewById(R.id.sourceLink)
         resultsLink = findViewById(R.id.resultsLink)
+        batteryLink = findViewById(R.id.batteryLink)
 
         recordButton.isEnabled = false
         showMessage("LOADING MODEL…", "", secondary())
@@ -134,6 +146,110 @@ class MainActivity : AppCompatActivity() {
 
         sourceLink.setOnClickListener { showSourceDialog() }
         resultsLink.setOnClickListener { showResultsDialog() }
+        batteryLink.setOnClickListener { runBatteryTest() }
+    }
+
+    /**
+     * Idle-baseline-vs-under-load current draw, sampled via
+     * DeviceDiagnostics.currentDrawMicroamps (BatteryManager, app-process
+     * level — /sys/class/power_supply/battery/current_now is confirmed
+     * Permission denied for the shell user on this device, see
+     * NEXT_STEPS.md). Must be run off USB power or the charging current
+     * swamps anything the model actually draws.
+     *
+     * Idle phase: ~30s, sampled every 2s. Stress phase: ~60s of
+     * back-to-back inference (SiloSenseClassifier.stressRun), sampled every
+     * 2s between chunks. Both phases' raw samples are kept, not just the
+     * delta, so "idle" is inspectable rather than asserted.
+     */
+    private fun runBatteryTest() {
+        val classifier = int8Classifier
+        if (classifier == null || batteryTestRunning) return
+        batteryTestRunning = true
+        batteryLink.isEnabled = false
+        val originalStatus = statusWord.text.toString()
+        val originalDetail = detailText.text.toString()
+
+        thread {
+            val idleSamples = mutableListOf<Int>()
+            val loadedSamples = mutableListOf<Int>()
+            var unsupported = false
+            var inferencesRun = 0
+
+            try {
+                val features = AudioFeatures.logMel(loadSampleClip())
+
+                repeat(IDLE_SAMPLE_COUNT) { i ->
+                    runOnUiThread { showMessage("BATTERY TEST: IDLE", "sample ${i + 1}/$IDLE_SAMPLE_COUNT", secondary()) }
+                    DeviceDiagnostics.currentDrawMicroamps(applicationContext)?.let { idleSamples += it }
+                    Thread.sleep(SAMPLE_INTERVAL_MS)
+                }
+                if (idleSamples.isEmpty()) unsupported = true
+
+                repeat(STRESS_CHUNK_COUNT) { i ->
+                    runOnUiThread { showMessage("BATTERY TEST: UNDER LOAD", "chunk ${i + 1}/$STRESS_CHUNK_COUNT", amber()) }
+                    inferencesRun += classifier.stressRun(features, STRESS_CHUNK_MS)
+                    DeviceDiagnostics.currentDrawMicroamps(applicationContext)?.let { loadedSamples += it }
+                }
+                if (loadedSamples.isEmpty()) unsupported = true
+            } catch (e: Exception) {
+                runOnUiThread {
+                    showMessage("ERROR", e.message ?: "battery test failed", infestedColor())
+                    batteryLink.isEnabled = true
+                    batteryTestRunning = false
+                }
+                return@thread
+            }
+
+            batteryResult = BatteryTestResult(idleSamples, loadedSamples, inferencesRun, unsupported)
+
+            runOnUiThread {
+                statusWord.text = originalStatus
+                detailText.text = originalDetail
+                setButtonColor(accent())
+                batteryLink.isEnabled = true
+                batteryTestRunning = false
+                showBatteryResultDialog()
+            }
+        }
+    }
+
+    private fun showBatteryResultDialog() {
+        val result = batteryResult
+        val body = if (result == null) {
+            "No battery test result yet."
+        } else if (result.unsupported) {
+            "BATTERY_PROPERTY_CURRENT_NOW is unsupported on this device " +
+                "(returned Int.MIN_VALUE from BatteryManager). No fabricated " +
+                "number to show — this is a real hardware/OEM limitation, not " +
+                "a bug."
+        } else {
+            val idleAvg = result.idleSamplesUa.average()
+            val loadedAvg = result.loadedSamplesUa.average()
+            """
+                idle avg     %.0f uA  (n=${result.idleSamplesUa.size})
+                loaded avg   %.0f uA  (n=${result.loadedSamplesUa.size})
+                delta        %.0f uA
+                inferences   ${result.inferencesRun} in ~${STRESS_CHUNK_COUNT * STRESS_CHUNK_MS / 1000}s
+
+                Raw BatteryManager.BATTERY_PROPERTY_CURRENT_NOW reading.
+                Sign convention (charging vs discharging) is OEM-defined;
+                reported as-is, not normalized.
+            """.trimIndent().format(idleAvg, loadedAvg, loadedAvg - idleAvg)
+        }
+
+        val textView = TextView(this).apply {
+            text = body
+            typeface = Typeface.MONOSPACE
+            textSize = 12f
+            setTextColor(ContextCompat.getColor(this@MainActivity, R.color.silo_text))
+            setPadding(48, 32, 48, 16)
+        }
+        AlertDialog.Builder(this)
+            .setTitle("Battery test result")
+            .setView(textView)
+            .setPositiveButton(R.string.source_dialog_close, null)
+            .show()
     }
 
     private fun showSourceDialog() {
@@ -185,6 +301,18 @@ class MainActivity : AppCompatActivity() {
         val loadDeltaKb = (afterLoadPssKb ?: 0) - (baselinePssKb ?: 0)
         val benchDeltaKb = (afterBenchPssKb ?: 0) - (afterLoadPssKb ?: 0)
 
+        val battery = batteryResult?.let { r ->
+            if (r.unsupported) {
+                "unsupported on this device (BATTERY_PROPERTY_CURRENT_NOW)"
+            } else {
+                val idleAvg = r.idleSamplesUa.average()
+                val loadedAvg = r.loadedSamplesUa.average()
+                "idle %.0fuA -> loaded %.0fuA (delta %.0fuA, n=%d/%d)".format(
+                    idleAvg, loadedAvg, loadedAvg - idleAvg, r.idleSamplesUa.size, r.loadedSamplesUa.size,
+                )
+            }
+        } ?: "not measured yet (tap \"Battery test\", off USB power)"
+
         return """
             TRAINING (offline validation)
                           FP32       INT8
@@ -213,7 +341,7 @@ class MainActivity : AppCompatActivity() {
             before      ${thermalBefore ?: "?"}
             after       ${thermalAfter ?: "?"}
 
-            battery     not measured
+            battery     $battery
 
             DESKTOP CPU (AMD Ryzen 5 PRO 8540U, x86_64)
             fp32 avg    0.226ms
@@ -366,5 +494,9 @@ class MainActivity : AppCompatActivity() {
 
     private companion object {
         const val SAMPLE_ASSET = "sample_infested.pcm"
+        const val IDLE_SAMPLE_COUNT = 15
+        const val SAMPLE_INTERVAL_MS = 2000L
+        const val STRESS_CHUNK_COUNT = 30
+        const val STRESS_CHUNK_MS = 2000L
     }
 }
