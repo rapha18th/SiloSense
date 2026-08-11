@@ -148,7 +148,7 @@ class MainActivity : AppCompatActivity() {
         val int8Bench = deviceInt8Bench
         val fp32Bench = deviceFp32Bench
         val body = if (int8Bench == null || fp32Bench == null) {
-            "Still benchmarking on this device — try again in a moment."
+            "Still benchmarking on this device. Try again in a moment."
         } else {
             buildResultsTable(int8Bench, fp32Bench)
         }
@@ -199,14 +199,10 @@ class MainActivity : AppCompatActivity() {
             speedup     $deviceSpeedup
             fp32 load   $fp32Load
             int8 load   $int8Load
-            fp32 EPs    $fp32Eps  (registered)
-            int8 EPs    $int8Eps  (registered)
+            fp32 EPs    $fp32Eps
+            int8 EPs    $int8Eps
             fp32 nodes  ${fp32ProviderSummary ?: "not run yet"}
             int8 nodes  ${int8ProviderSummary ?: "not run yet"}
-
-            "nodes" is from ONNX Runtime's own profiling
-            trace: which provider actually ran each op,
-            not just what registered on the session.
 
             MEMORY (process PSS, this phone)
             baseline    ${baselinePssKb ?: "?"} KB
@@ -217,18 +213,13 @@ class MainActivity : AppCompatActivity() {
             before      ${thermalBefore ?: "?"}
             after       ${thermalAfter ?: "?"}
 
-            NOT MEASURED: battery drain. Would need a
-            sustained multi-minute load test, not run here.
+            battery     not measured
 
             DESKTOP CPU (AMD Ryzen 5 PRO 8540U, x86_64)
             fp32 avg    0.226ms
             int8 avg    0.176ms
             speedup     1.28x
             providers   CPU only, no XNNPACK
-
-            Desktop uses plain CPU only, no Arm-specific
-            path. Phone and desktop are different chips
-            and not directly comparable in absolute terms.
         """.trimIndent()
     }
 
