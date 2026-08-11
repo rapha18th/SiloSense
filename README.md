@@ -20,6 +20,23 @@ Three choices make this usable in the places that need it most:
 
 The whole pipeline, from a 1.5-second recording to a result, runs on-device, offline, in under two seconds.
 
+## Screenshots
+
+All captured live on the test device (Samsung Galaxy M16), not mocked up.
+
+<table>
+<tr>
+<td align="center"><img src="screenshots/result_live.png" width="220" alt="Likely Clean result at 99%25 confidence from a live ambient recording"><br><sub>Live recording, clean room ambience</sub></td>
+<td align="center"><img src="screenshots/result_infested.png" width="220" alt="Likely Infested result at 69%25 confidence from the bundled sample clip"><br><sub>Bundled real infested-grain sample</sub></td>
+<td align="center"><img src="screenshots/dialog_results.png" width="220" alt="Full model results dialog showing training, on-device, memory, thermal, battery, and desktop numbers"><br><sub>Full model results</sub></td>
+</tr>
+<tr>
+<td align="center"><img src="screenshots/dialog_battery.png" width="220" alt="Battery test result dialog showing idle vs loaded current draw"><br><sub>Battery test</sub></td>
+<td align="center"><img src="screenshots/dialog_source.png" width="220" alt="Sample source dialog describing the bundled infested-grain clip's provenance"><br><sub>See source</sub></td>
+<td></td>
+</tr>
+</table>
+
 ## Architecture
 
 Training happens offline in Python. Inference happens on-device in Kotlin. Both stages compute the same log-mel feature spectrogram from the same spec, and that equivalence is checked, not assumed (see [Porting & parity](#porting--parity) below).
