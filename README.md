@@ -210,6 +210,27 @@ android/               native Android app (Kotlin)
 models/                trained FP32/INT8 .onnx models + metrics + x86 cross-check
 ```
 
+## Baseline, limitations, and what production would need
+
+This is a baseline. It proves the pipeline end to end on real Arm hardware, with real measured numbers throughout. It is a screening tool that tells a household or trader where to look closer. It does not replace a grain inspector's judgment.
+
+**Limitations, stated plainly:**
+
+- The three-tier threshold (0.45 / 0.65) comes from this model's own validation gap. It is not drawn from any external grading standard.
+- All on-device numbers are measured on one phone, a Samsung Galaxy M16. There is no multi-chipset spread yet.
+- The Infested path is demoed through a bundled real clip. A live-microphone test against real infested grain is still open.
+- There is no calibration against an official standard, such as insects per kilogram or percent insect-damaged kernels.
+
+**Contributing:** the repo is MIT-licensed. Fork it, open a PR, or open an issue. The limitations above are the highest-value places to start, especially a multi-device benchmark or a live infested-grain recording session. Keep the same discipline the rest of this project follows: measure on real hardware, report the raw number alongside any derived one, and state plainly what wasn't tested.
+
+**A production-grade version would need:**
+
+- **Graded ground truth.** Clips paired with an actual measured insect count or damage percentage on the same grain, across a range of severities. The current labels only mark a clip infested or clean.
+- **A severity model.** Once graded data exists, the model would move from two-class classification to a regression or ordinal target: an estimated count or damage percentage.
+- **Real grading thresholds**, obtained from a body like Zimbabwe's Grain Marketing Board, and a formal agreement study comparing this tool's output against that method on the same samples.
+- **Field recordings that match deployment**: the crop, sack material, and moisture range it will actually be used on, primarily maize in smallholder and trader storage in Zimbabwe, rather than the study conditions SPID/A-SPIDS was recorded under.
+- **Interface extensions that need no new model**: a per-sack check history, a batch mode for scanning a warehouse in one session, and guidance tied to the result, re-check timing for a clean reading, separate-and-treat for an infested one. All of this stays on-device, with no server or subscription required.
+
 ## License
 
 MIT.
