@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base -->
+    <color name="silo_bg">#000000</color>
+    <color name="silo_card">#1C1C1E</color>
+    <color name="silo_card_border">#2C2C2E</color>
+    <color name="silo_chip_bg">#161618</color>
+
+    <!-- Text -->
+    <color name="silo_text">#FFFFFF</color>
+    <color name="silo_text_secondary">#8E8E93</color>
+    <color name="silo_text_tertiary">#636366</color>
+
+    <!-- Accents -->
+    <color name="silo_accent">#0A84FF</color>
+    <color name="silo_green">#30D158</color>
+    <color name="silo_red">#FF453A</color>
+    <color name="silo_amber">#FF9F0A</color>
+</resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SiloSense" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/silo_accent</item>
+        <item name="colorSecondary">@color/silo_green</item>
+        <item name="android:windowBackground">@color/silo_bg</item>
+        <item name="android:statusBarColor">@color/silo_bg</item>
+        <item name="android:navigationBarColor">@color/silo_bg</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+</resources>

@@ -1,0 +1,16 @@
+{
+  "val_accuracy": 1.0,
+  "val_f1": 1.0,
+  "model_size_mb": 0.110939,
+  "fp32_size_mb": 0.392575,
+  "size_reduction_ratio": 3.538656378730654,
+  "quantization_method": "static QDQ, MinMax calibration, Conv+Gemm quantized",
+  "n_calibration_samples": 100,
+  "providers_requested": [
+    "XnnpackExecutionProvider",
+    "CPUExecutionProvider"
+  ],
+  "providers_actual": [
+    "CPUExecutionProvider"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "val_accuracy": 0.9899497487437185,
+  "val_f1": 0.9850746268656716,
+  "model_size_mb": 0.392575,
+  "n_params": 97890,
+  "train_windows": 747,
+  "val_windows": 199
+}

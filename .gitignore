@@ -1,0 +1,48 @@
+data/spid_downloads/
+data/esc50/
+data/*.log
+*.pyc
+__pycache__/
+.ipynb_checkpoints/
+*.zip
+kaggle.json
+
+# Regeneratable pipeline outputs (deterministic given a fixed RNG seed and
+# the tracked aspids_log.csv). aspids_log.csv itself is NOT ignored — it's
+# an external label log nothing here regenerates.
+data/manifest.csv
+data/spid_selected.csv
+data/spid_candidates.csv
+
+# Android build/cache output
+android/.gradle/
+android/.idea/
+android/.kotlin/
+android/local.properties
+android/app/build/
+android/build/
+android/*.iml
+android/app/*.iml
+android/captures/
+android/.cxx/
+*.log
+
+# Real infested-grain audio bundled for the legacy Termux demo path (kept
+# on disk, not tracked — same reasoning as the raw SPID/ESC-50 audio above)
+legacy_termux_proot/phone_package/data/clips/
+legacy_termux_proot/phone_package.zip
+
+# Session-handoff/narrative documents, not code — see NEXT_STEPS.md itself
+# for why these stay local-only.
+*.docx
+~$*.docx
+*.pdf
+NEXT_STEPS.md
+PORTING_NOTES.md
+
+# npm (submission/generate_writeup.js's docx dependency) — package.json and
+# package-lock.json are tracked, node_modules/ is not.
+node_modules/
+
+# Claude Code session state, not project content.
+.claude/

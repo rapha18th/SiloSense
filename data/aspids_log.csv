@@ -1,0 +1,166 @@
+start,end,target,material,description,noise
+2023-05-17 16:59:00,2023-05-17 17:04:00,No Insects (Unconfirmed),Corn Flakes,,Silence
+2023-05-17 17:04:00,2023-05-17 17:09:00,Tenebrio molitor larvae,Corn Flakes,1 Tenebrio molitor larvae,Silence
+2023-05-17 17:09:00,2023-05-17 17:14:00,Tenebrio molitor larvae,Corn Flakes,5 Tenebrio molitor larvaes,Silence
+2023-05-17 17:14:00,2023-05-17 17:19:00,Tenebrio molitor larvae,Corn Flakes,,Helicopter
+2023-05-17 17:19:00,2023-05-17 17:27:00,Tenebrio molitor larvae,Rice,,Silence
+2023-05-17 17:27:00,2023-05-17 17:30:00,Tenebrio molitor larvae,Rice,,Silence
+2023-05-17 17:27:00,2023-05-17 17:28:00,Tenebrio molitor larvae,Rice,,Helicopter
+2023-05-17 17:30:00,2023-05-17 17:36:00,Tenebrio molitor larvae,Rice,,Silence
+2023-05-17 20:46:00,2023-05-17 20:52:00,Tenebrio molitor larvae,Oatmeal,,Silence
+2023-05-17 20:52:00,2023-05-17 21:01:00,Tenebrio molitor larvae,Oatmeal,,Silence
+2023-05-17 20:54:00,2023-05-17 20:55:00,Tenebrio molitor larvae,Oatmeal,,Footsteps
+2023-05-17 20:54:00,2023-05-17 20:55:00,Tenebrio molitor larvae,Oatmeal,,Clap
+2023-05-17 21:01:00,2023-05-17 21:11:00,Tenebrio molitor larvae,Wheat Groats,,Silence
+2023-05-24 19:42:00,2023-05-24 19:51:00,Tenebrio molitor larvae,Oatmeal,,Silence
+2023-05-24 19:44:00,2023-05-24 19:45:00,Tenebrio molitor larvae,Oatmeal,,Conversation
+2023-05-24 19:46:00,2023-05-24 19:47:00,Tenebrio molitor larvae,Oatmeal,,Airplane
+2023-05-24 21:24:00,2023-05-24 21:30:00,Tenebrio molitor larvae,Corn Flakes,,Silence
+2023-05-30 18:55:00,2023-05-30 18:57:00,No Insects (Unconfirmed),Flour,,Silence
+2023-05-30 19:02:00,2023-05-30 19:05:00,Tribolium confusum,Flour,,Silence
+2023-05-30 19:03:00,2023-05-30 19:04:00,Tribolium confusum,Flour,,Lawn Mowers
+2023-05-30 19:07:00,2023-05-30 19:17:00,Callosobruchus maculatus,Flour,,Silence
+2023-05-30 19:07:00,2023-05-30 19:08:00,Callosobruchus maculatus,Flour,,Lawn Mowers
+2023-05-30 19:21:00,2023-05-30 19:30:00,Tenebrio molitor larvae,Flour,,Silence
+2023-05-30 20:09:00,2023-05-30 20:13:00,Tenebrio molitor,Flour,,Silence
+2023-05-30 20:16:00,2023-05-30 20:20:00,Tribolium confusum,Rice,,Silence
+2023-05-30 20:23:00,2023-05-30 20:27:00,Callosobruchus maculatus,Rice,,Silence
+2023-05-30 20:28:00,2023-05-30 20:38:00,Tenebrio molitor larvae,Rice,,Silence
+2023-05-30 20:39:00,2023-05-30 20:40:30,Tenebrio molitor,Rice,,Silence
+2023-05-31 17:31:00,2023-05-31 17:33:00,No Insects (Unconfirmed),,,Silence
+2023-05-31 17:33:00,2023-05-31 17:35:00,Talking,,,Silence
+2023-05-31 17:35:00,2023-05-31 17:37:00,Sweep,,,Noise
+2023-05-31 17:37:00,2023-05-31 17:40:00,Tribolium confusum,Wheat Groats,,Silence
+2023-05-31 17:43:00,2023-05-31 17:46:00,Callosobruchus maculatus,Wheat Groats,,Silence
+2023-05-31 17:48:00,2023-05-31 17:52:00,Tenebrio molitor larvae,Wheat Groats,,Silence
+2023-05-31 17:57:00,2023-05-31 17:59:00,Tenebrio molitor,Wheat Groats,,Silence
+2023-05-31 17:59:00,2023-05-31 20:18:00,Talking,Wheat Groats,,Silence
+2023-05-31 18:18:00,2023-05-31 18:20:00,Tenebrio molitor,Wheat Groats,,Silence
+2023-05-31 18:24:00,2023-05-31 18:26:00,Tribolium confusum,Oatmeal,,Silence
+2023-05-31 18:28:00,2023-05-31 18:30:00,Callosobruchus maculatus,Oatmeal,,Silence
+2023-05-31 18:32:00,2023-05-31 18:34:00,Tenebrio molitor larvae,Oatmeal,,Silence
+2023-05-31 18:36:00,2023-05-31 19:44:00,Tenebrio molitor,Oatmeal,,Silence
+2023-05-31 19:44:00,2023-05-31 19:50:00,Tribolium confusum,Corn Flakes,,Silence
+2023-05-31 19:53:00,2023-05-31 19:57:00,Callosobruchus maculatus,Corn Flakes,,Silence
+2023-05-31 19:58:00,2023-05-31 20:01:00,Callosobruchus maculatus,Corn Flakes,,Silence
+2023-05-31 20:02:00,2023-05-31 20:05:00,Tenebrio molitor larvae,Corn Flakes,,Silence
+2023-05-31 20:11:00,2023-05-31 20:20:00,Tenebrio molitor,Corn Flakes,,Silence
+2023-06-14 16:28:00,2023-06-14 16:30:00,No Insects (Unconfirmed),,,Silence
+2023-06-14 16:34:00,2023-06-14 16:38:00,Tenebrio molitor,Rice,,Silence
+2023-06-14 16:42:00,2023-06-14 16:48:00,Tenebrio molitor larvae,Rice,,Silence
+2023-06-14 16:54:00,2023-06-14 16:58:00,Tribolium confusum,Rice,,Silence
+2023-06-14 17:05:00,2023-06-14 17:10:00,A lot of Bugs,Oatmeal,,Silence
+2023-06-14 17:17:00,2023-06-14 17:37:00,Tenebrio molitor larvae,Flour,,Silence
+2023-06-14 21:45:00,2023-06-14 21:50:00,Tenebrio molitor,Flour,,Silence
+2023-06-21 17:00:00,2023-06-21 17:15:00,Tribolium confusum,Rice,,Silence
+2023-06-21 17:16:00,2023-06-21 17:28:00,Tribolium confusum,Wheat Groats,,Silence
+2023-06-21 17:30:00,2023-06-21 17:45:00,Tribolium confusum,Wheat Groats,,Silence
+2023-06-21 18:24:00,2023-06-21 18:34:00,Tribolium confusum,Corn Flakes,,Silence
+2023-06-21 19:10:00,2023-06-21 19:20:00,Callosobruchus maculatus,Corn Flakes,,Silence
+2023-06-21 19:36:00,2023-06-21 19:46:00,Callosobruchus maculatus,Rice,,Silence
+2023-06-21 19:54:00,2023-06-21 20:04:00,Callosobruchus maculatus,Flour,,Silence
+2023-06-21 20:09:00,2023-06-21 20:19:00,Callosobruchus maculatus,Wheat Groats,,Silence
+2023-06-21 20:25:00,2023-06-21 20:35:00,Tenebrio molitor larvae,Wheat Groats,,Silence
+2023-06-21 20:53:00,2023-06-21 20:54:00,Tenebrio molitor larvae,Rice,,Silence
+2023-06-28 20:21:00,2023-06-28 20:30:00,Callosobruchus maculatus,Rice,,Silence
+2023-06-28 20:35:00,2023-06-28 20:45:00,Tribolium confusum,Rice,,Silence
+2023-06-28 20:50:00,2023-06-28 21:00:00,Tenebrio molitor larvae,Rice,,Silence
+2023-06-28 21:02:00,2023-06-28 21:12:00,Tenebrio molitor,Rice,,Silence
+2023-07-05 20:18:00,2023-07-05 21:00:00,Callosobruchus maculatus,Rice,,Silence
+2023-09-11 15:20:00,2023-09-11 15:35:00,No Insects (Unconfirmed),Rice,,Silence
+2023-09-11 15:35:00,2023-09-11 16:14:00,Tribolium confusum,Rice,,Silence
+2023-09-11 16:14:00,2023-09-11 16:59:00,Tribolium confusum,Rice,4x,Silence
+2023-09-11 16:59:00,2023-09-11 17:26:00,Tribolium confusum,Flour,,Silence
+2023-09-11 17:26:00,2023-09-11 18:56:00,Tribolium confusum,Wheat Groats,,Silence
+2023-09-11 18:56:00,2023-09-11 19:38:00,Tribolium confusum,Rice,,Silence
+2023-09-22 16:11:00,2023-09-22 16:45:00,No Insects (Unconfirmed),Rice,,Silence
+2023-09-22 16:45:00,2023-09-22 17:10:00,Callosobruchus maculatus larvae,Rice,,Silence
+2023-09-22 17:10:00,2023-09-22 17:13:00,Callosobruchus maculatus larvae,Rice,,Factory 1
+2023-09-22 17:13:00,2023-09-22 17:15:00,Callosobruchus maculatus larvae,Rice,,Factory 2
+2023-09-22 17:15:00,2023-09-22 17:18:00,Callosobruchus maculatus larvae,Rice,,Crowd
+2023-09-22 17:22:00,2023-09-22 17:37:00,Callosobruchus maculatus,Rice,,Silence
+2023-09-22 17:37:00,2023-09-22 17:40:00,Callosobruchus maculatus,Rice,,Crowd
+2023-09-22 17:40:00,2023-09-22 17:46:00,Callosobruchus maculatus,Rice,,Factory 2
+2023-09-22 17:46:00,2023-09-22 17:49:00,Callosobruchus maculatus,Rice,,Factory 1
+2023-09-22 17:52:00,2023-09-22 18:30:00,Tribolium confusum,Rice,,Silence
+2023-09-22 18:30:00,2023-09-22 18:36:00,Tribolium confusum,Rice,,Factory 1
+2023-09-22 18:36:00,2023-09-22 18:41:00,Tribolium confusum,Rice,,Factory 2
+2023-09-22 18:41:00,2023-09-22 18:46:00,Tribolium confusum,Rice,,Crowd
+2023-09-22 18:49:00,2023-09-22 18:53:00,Tenebrio molitor larvae,Rice,,Crowd
+2023-09-22 18:53:00,2023-09-22 18:55:00,Tenebrio molitor larvae,Rice,,Factory 1
+2023-09-22 18:55:00,2023-09-22 18:59:00,Tenebrio molitor larvae,Rice,,Factory 2
+2023-09-22 18:59:00,2023-09-22 19:02:00,Tenebrio molitor larvae,Rice,,Silence
+2023-09-22 19:02:00,2023-09-22 19:07:00,Tenebrio molitor larvae,Rice,,Factory 2
+2023-09-22 19:07:00,2023-09-22 19:16:00,Tenebrio molitor larvae,Rice,,Silence
+2023-09-26 15:55:00,2023-09-26 16:12:00,No Insects (Unconfirmed),Rice,,Silence
+2023-09-26 16:12:00,2023-09-26 16:25:00,No Insects (Unconfirmed),Rice,,Factory 1
+2023-09-26 16:25:00,2023-09-26 16:36:00,No Insects (Unconfirmed),Rice,,Factory 2
+2023-09-26 16:36:00,2023-09-26 16:46:00,No Insects (Unconfirmed),Rice,,Crowd
+2023-09-26 16:48:00,2023-09-26 18:07:00,Tenebrio molitor larvae,Rice,,Silence
+2023-09-26 18:07:00,2023-09-26 18:35:00,Callosobruchus maculatus larvae,Rice,,Silence
+2023-09-26 18:35:00,2023-09-26 20:03:00,Callosobruchus maculatus,Rice,,Silence
+2023-09-26 20:03:00,2023-09-26 20:29:00,Tribolium confusum,Rice,,Silence
+2023-10-06 15:58:00,2023-10-06 17:58:00,Tenebrio molitor larvae,Rice,2x ,Silence
+2023-10-06 18:00:00,2023-10-06 19:30:00,Callosobruchus maculatus,Rice,2x ,Silence
+2023-10-06 19:37:00,2023-10-06 20:24:00,Tribolium confusum,Rice,2x ,Silence
+2023-10-06 20:25:00,2023-10-06 20:29:00,Tribolium confusum,Rice,2x ,Silence
+2023-10-06 20:37:00,2023-10-06 20:41:00,Tenebrio molitor larvae,Rice,2x ,Silence
+2023-10-13 17:35:00,2023-10-13 18:18:00,No Insects (Unconfirmed),Rice,,Silence
+2023-10-17 16:10:00,2023-10-17 16:14:00,No Insects,,,Silence
+2023-10-17 16:14:00,2023-10-17 16:38:00,No Insects (Unconfirmed),Rice,,Silence
+2023-10-17 16:38:00,2023-10-17 17:07:00,No Insects (Unconfirmed),Rice,,Noise
+2023-10-17 17:07:00,2023-10-17 17:16:00,Tenebrio molitor larvae,Rice,Drilling Noise,Silence
+2023-10-21 13:05:00,2023-10-21 13:06:00,No Insects (Unconfirmed),Rice,"Vacuum, Radio",Noise
+2023-10-21 13:06:00,2023-10-21 13:52:00,No Insects (Unconfirmed),Rice,,Silence
+2023-10-23 03:04:00,2023-10-23 03:14:00,No Insects,Rice,,Silence
+2023-10-23 12:26:00,2023-10-23 12:32:00,No Insects,,,Silence
+2023-10-23 12:50:00,2023-10-23 13:20:00,No Insects,Rice,,Silence
+2023-10-23 19:25:00,2023-10-23 19:35:00,Unknown Insect,Wheat Groats,,Silence
+2023-10-23 19:35:00,2023-10-23 19:57:00,Tenebrio molitor larvae,Wheat Groats,,Silence
+2023-10-23 21:08:00,2023-10-23 21:16:00,No Insects,Corn Flakes,,Silence
+2023-10-23 21:18:00,2023-10-23 21:42:00,Tenebrio molitor larvae,Corn Flakes,,Silence
+2023-10-24 13:00:00,2023-10-24 13:10:00,No Insects,Flour,,Silence
+2023-10-24 13:13:00,2023-10-24 14:35:00,Tenebrio molitor larvae,Flour,,Silence
+2023-10-24 14:45:00,2023-10-24 15:44:00,Tribolium confusum,Wheat Groats,,Silence
+2023-10-25 02:18:00,2023-10-25 02:28:00,No Insects,Corn Flakes,,Silence
+2023-10-25 15:49:00,2023-10-25 16:01:00,No Insects,Flour,,Silence
+2023-10-25 19:31:30,2023-10-25 19:32:00,No Insects,Flour,Tapping,Noise
+2023-10-25 19:44:00,2023-10-25 20:41:00,No Insects,Wet Rice,,Silence
+2023-11-01 18:10:00,2023-11-01 18:11:00,No Insects,Wheat Groats,,Silence
+2023-11-01 18:13:00,2023-11-01 18:14:00,No Insects,Wheat Groats,,Talking
+2023-11-01 18:20:00,2023-11-01 18:25:00,Tenebrio molitor larvae,Wheat Groats,,Silence
+2023-11-01 18:27:00,2023-11-01 18:29:00,Tenebrio molitor larvae,Wheat Groats,,Talking
+2023-11-01 18:31:00,2023-11-01 18:33:00,No Insects,Wheat Groats,,Silence
+2023-11-01 18:33:00,2023-11-01 18:34:00,Talking,Wheat Groats,,Talking
+2023-11-07 19:22:00,2023-11-07 19:23:00,Noise 60 dB,,,Noise
+2023-11-07 19:24:00,2023-11-07 19:25:00,Noise 80 dB,,,Noise
+2023-11-07 19:26:00,2023-11-07 19:28:00,Noise 70 dB,,,Noise
+2023-11-07 19:29:00,2023-11-07 19:30:00,Noise 90 dB,,,Noise
+2023-11-07 19:32:00,2023-11-07 19:33:00,Noise 100 dB,,,Noise
+2023-11-08 03:58:10,2023-11-08 04:03:00,Tenebrio molitor,Wheat Groats,,Silence
+2023-11-08 04:07:00,2023-11-08 04:11:00,Tenebrio molitor,Corn Flakes,,Silence
+2023-12-17 22:04:00,2023-12-17 22:08:00,Ronald Reagan Speech,,,Noise
+2023-12-18 19:57:00,2023-12-18 19:58:00,Ronald Reagan Speech - 60 dB,,,Noise
+2023-12-18 19:58:00,2023-12-18 19:59:00,Ronald Reagan Speech - 70 dB,,,Noise
+2023-12-18 19:59:00,2023-12-18 20:00:00,Ronald Reagan Speech - 80 dB,,,Noise
+2023-12-18 20:00:00,2023-12-18 20:01:00,Ronald Reagan Speech - 90 dB,,,Noise
+2023-12-18 20:01:00,2023-12-18 20:02:00,Ronald Reagan Speech - 100 dB,,,Noise
+2023-12-18 20:08:00,2023-12-18 20:09:00,White Noise - 70 dB,,,Noise
+2023-12-18 20:09:00,2023-12-18 20:10:00,White Noise - 80 dB,,,Noise
+2023-12-18 20:10:00,2023-12-18 20:11:00,White Noise - 90 dB,,,Noise
+2023-12-18 20:11:00,2023-12-18 20:12:00,White Noise - 100 dB,,,Noise
+2024-02-12 22:00:15,2024-02-12 22:02:00,No Insects,,,Silence
+2024-02-12 22:04:00,2024-02-12 22:08:00,No Insects,Oatmeal,,Silence
+2024-02-12 22:10:00,2024-02-12 22:19:00,Tribolium confusum,Oatmeal,,Silence
+2024-02-13 18:06:00,2024-02-13 18:16:00,Callosobruchus maculatus,Oatmeal,,Silence
+2024-03-30 15:20:00,2024-03-30 15:24:00,,,,Silence
+2024-03-30 15:27:00,2024-03-30 15:40:00,Tribolium confusum,Oatmeal,,Silence
+2024-03-30 15:42:00,2024-03-30 15:47:00,Tribolium confusum,Oatmeal,2x,Silence
+2024-04-14 06:05:00,2024-04-14 06:08:00,No Insects,,,Silence
+2024-04-14 06:11:00,2024-04-14 06:25:00,Tribolium confusum,Flour,,Silence
+2024-04-14 06:27:00,2024-04-14 06:38:00,Tribolium confusum,Flour,2x,Silence
+2024-04-14 16:31:00,2024-04-14 16:41:00,Tribolium confusum,Oatmeal,2x,Silence
+2024-04-14 17:38:00,2024-04-14 17:48:00,Tribolium confusum,Wheat Groats,2x,Silence
+2024-04-26 03:42:00,2024-04-26 04:02:00,Tenebrio molitor larvae,Oatmeal,2x,Silence
+2024-04-26 04:06:00,2024-04-26 04:23:00,Tenebrio molitor larvae,Flour,2x,Silence
+2024-04-26 15:39:00,2024-04-26 17:35:00,Tenebrio molitor larvae,Rice,"Multiple, Crowd - 70 dB",Noise
