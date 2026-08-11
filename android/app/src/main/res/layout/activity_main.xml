@@ -44,11 +44,55 @@
         app:layout_constraintStart_toStartOf="@id/titleText"
         app:layout_constraintTop_toBottomOf="@id/titleText" />
 
+    <LinearLayout
+        android:id="@+id/topLinksRow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="@id/titleText"
+        app:layout_constraintTop_toBottomOf="@id/subtitleText">
+
+        <TextView
+            android:id="@+id/resultsLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_pill_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="10dp"
+            android:text="@string/results_link"
+            android:textColor="@color/silo_text"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/batteryLink"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_pill_button"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="16dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="10dp"
+            android:text="@string/battery_link"
+            android:textColor="@color/silo_text"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
     <androidx.cardview.widget.CardView
         android:id="@+id/statusCard"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="28dp"
         app:cardBackgroundColor="@color/silo_card"
         app:cardCornerRadius="28dp"
@@ -56,7 +100,7 @@
         app:layout_constraintBottom_toTopOf="@id/latencyChip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/subtitleText">
+        app:layout_constraintTop_toBottomOf="@id/topLinksRow">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -126,69 +170,24 @@
         android:text="@string/try_sample_link"
         android:textColor="@color/silo_accent"
         android:textSize="13sp"
-        app:layout_constraintBottom_toTopOf="@id/linksRow"
+        app:layout_constraintBottom_toTopOf="@id/sourceLink"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linksRow"
+    <TextView
+        android:id="@+id/sourceLink"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="8dp"
+        android:text="@string/source_link"
+        android:textColor="@color/silo_text_tertiary"
+        android:textSize="12sp"
         app:layout_constraintBottom_toTopOf="@id/recordButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:id="@+id/sourceLink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="8dp"
-            android:text="@string/source_link"
-            android:textColor="@color/silo_text_tertiary"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="·"
-            android:textColor="@color/silo_text_tertiary"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/resultsLink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="8dp"
-            android:text="@string/results_link"
-            android:textColor="@color/silo_text_tertiary"
-            android:textSize="12sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="·"
-            android:textColor="@color/silo_text_tertiary"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/batteryLink"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:padding="8dp"
-            android:text="@string/battery_link"
-            android:textColor="@color/silo_text_tertiary"
-            android:textSize="12sp" />
-
-    </LinearLayout>
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/recordButton"

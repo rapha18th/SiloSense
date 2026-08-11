@@ -8,11 +8,11 @@
     <string name="status_classifying">ANALYZING…</string>
     <string name="status_loading">LOADING MODEL…</string>
     <string name="try_sample_link">Try a real infested-grain sample</string>
-    <string name="source_link">Source</string>
+    <string name="source_link">See source</string>
     <string name="source_dialog_title">Sample source</string>
     <string name="source_dialog_body">SPID / A-SPIDS dataset (Kaggle, Daniel Kadyrov, MIT license)\n\nFile: 2023_06_14_21_43_59.126_t00100_Ch0_00001.wav\nSpecies: Tenebrio molitor (mealworm beetle)\nMaterial: flour\nRecorded: 2023-06-14 21:43:59\nBackground: silence, no added noise\n\nResampled to 16kHz mono, fixed to 1.5s, verified to predict Infested (69.4%) through this app\'s own pipeline before bundling. Same dataset the model was trained on.</string>
     <string name="source_dialog_close">Close</string>
-    <string name="results_link">Full results</string>
+    <string name="results_link">Full model results</string>
     <string name="results_dialog_title">Full results</string>
     <string name="battery_link">Battery test</string>
 </resources>
