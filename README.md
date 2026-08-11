@@ -2,6 +2,8 @@
 
 On-device, Arm-optimized audio classifier for stored-grain insect infestation. Built for the **Arm Create: AI Optimization Challenge 2026** (Mobile AI track).
 
+The output is a working Android app running a 0.11MB static-quantized INT8 ONNX model entirely on-device, plus real measured evidence of the Arm optimization: latency, which execution provider actually ran each node, memory, thermal state, and battery draw. See [Setup, build & on-device evaluation](#setup-build--on-device-evaluation) below to build and validate it yourself.
+
 ## Why this matters
 
 Postharvest grain loss in Zimbabwe and the wider SADC region runs at 30% or more in many years. Most of it is invisible until the damage is already visible: frass, holes, a musty smell. By the time any of those show up, a meaningful share of the harvest is already gone.
@@ -109,18 +111,13 @@ Model load time is also measured directly, not assumed: FP32 loads in 8.9ms; INT
 
 Also measured, not assumed: process memory (PSS) at baseline (47,829 KB), after both models load (126,554 KB, +78,725 KB), and after the benchmark run (149,185 KB, +22,631 KB more); and thermal status via `PowerManager` immediately before and after the benchmark (`NONE` both times: real but narrow evidence against throttling during this specific short run, not a claim about sustained use).
 
-Battery drain is measured too, via `BatteryManager.getIntProperty(BATTERY_PROPERTY_CURRENT_NOW)` read from inside the app process (`/sys/class/power_supply/battery/current_now` is blocked, `Permission denied`, for the shell user on this device). Off USB power: idle baseline averaged -149,400 uA over 30s (15 samples), sustained INT8 inference averaged -332,437 uA over 60s (30 samples, 66,181 inferences run), a marginal delta of -183,037 uA (~183mA). That load rate, ~1,100 predictions/sec, is a synthetic stress test, not the app's real usage pattern of one prediction per ~1.5s recording — so this is a worst-case upper bound on drain, not a typical-use estimate.
+Battery drain is measured too, via `BatteryManager.getIntProperty(BATTERY_PROPERTY_CURRENT_NOW)` read from inside the app process (`/sys/class/power_supply/battery/current_now` is blocked, `Permission denied`, for the shell user on this device). Off USB power: idle baseline averaged -149,400 uA over 30s (15 samples), sustained INT8 inference averaged -332,437 uA over 60s (30 samples, 66,181 inferences run), a marginal delta of -183,037 uA (~183mA). That load rate, ~1,100 predictions/sec, is a synthetic stress test. The app's real usage pattern is one prediction per ~1.5s recording, so this number is a worst-case upper bound on drain, not a typical-use estimate.
 
 ## Porting & parity
 
 `scripts/features.py`'s log-mel pipeline (reflect-pad, periodic Hann window, real FFT, 40-band Slaney-style mel filterbank, per-clip relative dB normalization) is reimplemented natively in `AudioFeatures.kt`, including a hand-rolled radix-2 FFT. No external DSP dependency on-device.
 
-That port is checked, not assumed correct. `AudioFeaturesParityTest.kt` diffs a Kotlin-computed log-mel tensor against the Python reference on the same real audio clip: **maximum absolute difference 4.2×10⁻⁷**, effectively floating-point exact. A silent mismatch here wouldn't crash anything. It would just quietly degrade accuracy with no obvious symptom, which is the failure mode this test exists to catch.
-
-```bash
-cd android
-./gradlew testDebugUnitTest --tests "com.silosense.app.AudioFeaturesParityTest"
-```
+That port is checked, not assumed correct. `AudioFeaturesParityTest.kt` diffs a Kotlin-computed log-mel tensor against the Python reference on the same real audio clip: **maximum absolute difference 4.2×10⁻⁷**, effectively floating-point exact. A silent mismatch here wouldn't crash anything. It would just quietly degrade accuracy with no obvious symptom, which is the failure mode this test exists to catch. The command to run it is in [Setup, build & on-device evaluation](#setup-build--on-device-evaluation) below.
 
 ## App architecture
 
@@ -152,17 +149,44 @@ sequenceDiagram
     UI-->>U: Likely Clean / Uncertain / Likely Infested
 ```
 
-## Build & run
+## Setup, build & on-device evaluation
 
-Requires JDK 17 and the Android SDK (platform 35, build-tools 35).
+Prerequisites: JDK 17, Android SDK (platform 35, build-tools 35), and an Android device or emulator on API 26+. Arm64 (an actual phone) is what this submission is optimized for and was benchmarked on, a Samsung Galaxy M16. A physical device is needed for the live-microphone path; the bundled sample clip and both benchmark dialogs work without a mic, so an emulator is enough to validate the rest.
+
+Clone, build, install:
 
 ```bash
-# from the android/ directory
+git clone https://github.com/rapha18th/SiloSense.git
+cd SiloSense/android
 ./gradlew assembleDebug
 adb install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-Both `.onnx` models and a real, MIT-licensed infested-grain sample clip are bundled as app assets, so the app builds and runs standalone. No dataset download or training run required first.
+Both `.onnx` models and a real, MIT-licensed infested-grain sample clip are bundled as app assets. No dataset download or training run is required first.
+
+**Permissions:** the app requests `RECORD_AUDIO` the first time Record is tapped. Accept the system prompt. To grant it ahead of time instead, for example when scripting a test pass:
+
+```bash
+adb shell pm grant com.silosense.app android.permission.RECORD_AUDIO
+```
+
+**To validate the optimization on-device**, once the app is running:
+
+1. Tap "Try a real infested-grain sample" for an instant Likely Infested result, no microphone needed. Or tap Record and let it listen for 1.5s for a live reading.
+2. Tap "Full model results" for the on-device FP32-vs-INT8 benchmark, the execution-provider trace (what actually ran each node on NNAPI, XNNPACK, or plain CPU), memory, thermal, and the desktop cross-check, all measured live on that run, not precomputed.
+3. Tap "Battery test" for a real idle-vs-loaded current-draw measurement, about 90 seconds (30s idle baseline, 60s of sustained inference). It runs fine on USB power, but the reading mixes in charging current. For a clean number, take the phone off USB power first, using wireless adb so the connection survives the unplug:
+   ```bash
+   adb tcpip 5555
+   adb connect <phone-ip>:5555
+   # now physically unplug the USB cable
+   ```
+
+To confirm the Kotlin feature port matches the Python training pipeline exactly:
+
+```bash
+cd android
+./gradlew testDebugUnitTest --tests "com.silosense.app.AudioFeaturesParityTest"
+```
 
 To regenerate the models from scratch:
 
