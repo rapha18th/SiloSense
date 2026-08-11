@@ -99,7 +99,7 @@ Static QDQ INT8 (`scripts/quantize.py`), MinMax calibration over 100 real traini
 | Model size | 0.393 MB | 0.111 MB | 3.54x smaller |
 | Validation accuracy | 98.99% | 100.00% | no loss (small val set: the INT8 number edging out FP32 is noise) |
 | Validation F1 | 0.985 | 1.000 | no loss |
-| On-device inference (Galaxy M16, Arm CPU) | 2.78 ms avg | 1.17 ms avg | 2.38x faster |
+| On-device inference (Galaxy M16, Arm CPU) | 3.71 ms avg | 1.07 ms avg | 3.47x faster |
 
 On-device numbers: both models loaded and benchmarked in the same run for a matched pair, ten warm-up runs discarded, fifty timed runs averaged, timing isolated to `session.run()` only. A separate desktop CPU-only cross-check (AMD Ryzen 5 PRO 8540U, x86_64, no XNNPACK available) showed a smaller 1.28x speedup (0.226ms to 0.176ms), in `models/x86_cpu_benchmark.json`. The two aren't directly comparable (different chip classes, different execution paths), but together they show the INT8 win holds independent of Arm-specific acceleration, and is larger *with* it.
 
@@ -107,11 +107,11 @@ On-device numbers: both models loaded and benchmarked in the same run for a matc
 
 Registering NNAPI as an execution provider is not the same as NNAPI running a node. `SiloSenseClassifier.kt` enables ONNX Runtime's session profiling, runs real inferences, and parses the resulting trace for each node's actual provider. On the test device, for both models, **NNAPI registered but never appears against a single node.** The real work ran on `XnnpackExecutionProvider` and `CPUExecutionProvider`. FP32: 80 nodes on XNNPACK, 50 on CPU. INT8: 70 on XNNPACK, 100 on CPU.
 
-Model load time is also measured directly, not assumed: FP32 loads in 8.9ms; INT8 loads in 472.4ms, about 50x slower despite being a third of the size, most likely because NNAPI/XNNPACK compile the QDQ quantized graph into their own representation on first load. INT8 wins decisively on steady-state latency and size. It does not win on cold start, on this device. Reported because it's true, not smoothed over.
+Model load time is also measured directly, not assumed: FP32 loads in 6.2ms; INT8 loads in 105.1ms, about 17x slower despite being a third of the size, most likely because NNAPI/XNNPACK compile the QDQ quantized graph into their own representation on first load. INT8 wins decisively on steady-state latency and size. It does not win on cold start, on this device. Reported because it's true, not smoothed over.
 
-Also measured, not assumed: process memory (PSS) at baseline (47,829 KB), after both models load (126,554 KB, +78,725 KB), and after the benchmark run (149,185 KB, +22,631 KB more); and thermal status via `PowerManager` immediately before and after the benchmark (`NONE` both times: real but narrow evidence against throttling during this specific short run, not a claim about sustained use).
+Also measured, not assumed: process memory (PSS) at baseline (50,235 KB), after both models load (84,790 KB, +34,555 KB), and after the benchmark run (154,544 KB, +69,754 KB); and thermal status via `PowerManager` immediately before and after the benchmark (`NONE` both times: real but narrow evidence against throttling during this specific short run, not a claim about sustained use).
 
-Battery drain is measured too, via `BatteryManager.getIntProperty(BATTERY_PROPERTY_CURRENT_NOW)` read from inside the app process (`/sys/class/power_supply/battery/current_now` is blocked, `Permission denied`, for the shell user on this device). Off USB power: idle baseline averaged -149,400 uA over 30s (15 samples), sustained INT8 inference averaged -332,437 uA over 60s (30 samples, 66,181 inferences run), a marginal delta of -183,037 uA (~183mA). That load rate, ~1,100 predictions/sec, is a synthetic stress test. The app's real usage pattern is one prediction per ~1.5s recording, so this number is a worst-case upper bound on drain, not a typical-use estimate.
+Battery drain is measured too, via `BatteryManager.getIntProperty(BATTERY_PROPERTY_CURRENT_NOW)` read from inside the app process (`/sys/class/power_supply/battery/current_now` is blocked, `Permission denied`, for the shell user on this device). Off USB power: idle baseline averaged -131,087 uA over 30s (15 samples), sustained INT8 inference averaged -357,427 uA over 60s (30 samples, 65,759 inferences run), a marginal delta of -226,340 uA (~226mA). That load rate, ~1,100 predictions/sec, is a synthetic stress test. The app's real usage pattern is one prediction per ~1.5s recording, so this number is a worst-case upper bound on drain, not a typical-use estimate.
 
 ## Porting & parity
 
