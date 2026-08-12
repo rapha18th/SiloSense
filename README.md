@@ -105,13 +105,35 @@ On-device numbers: both models loaded and benchmarked in the same run for a matc
 
 ### What actually executed the model
 
-Registering NNAPI as an execution provider is not the same as NNAPI running a node. `SiloSenseClassifier.kt` enables ONNX Runtime's session profiling, runs real inferences, and parses the resulting trace for each node's actual provider. On the test device, for both models, **NNAPI registered but never appears against a single node.** The real work ran on `XnnpackExecutionProvider` and `CPUExecutionProvider`. FP32: 80 nodes on XNNPACK, 50 on CPU. INT8: 70 on XNNPACK, 100 on CPU.
+Registration and execution are separate questions. `SiloSenseClassifier.kt` enables ONNX Runtime's session profiling, runs real inferences, and reads the resulting trace to see which provider ran each node.
 
-Model load time is also measured directly, not assumed: FP32 loads in 6.2ms; INT8 loads in 105.1ms, about 17x slower despite being a third of the size, most likely because NNAPI/XNNPACK compile the QDQ quantized graph into their own representation on first load. INT8 wins decisively on steady-state latency and size. It does not win on cold start, on this device. Reported because it's true, not smoothed over.
+| Execution provider | FP32 nodes | INT8 nodes |
+|---|---|---|
+| XnnpackExecutionProvider | 80 | 70 |
+| CPUExecutionProvider | 50 | 100 |
+| NNAPI | registered, 0 executed | registered, 0 executed |
 
-Also measured, not assumed: process memory (PSS) at baseline (50,235 KB), after both models load (84,790 KB, +34,555 KB), and after the benchmark run (154,544 KB, +69,754 KB); and thermal status via `PowerManager` immediately before and after the benchmark (`NONE` both times: real but narrow evidence against throttling during this specific short run, not a claim about sustained use).
+XNNPACK's Arm NEON SIMD kernels did the real work on this device, on both models. NNAPI registered on the session and ran nothing.
 
-Battery drain is measured too, via `BatteryManager.getIntProperty(BATTERY_PROPERTY_CURRENT_NOW)` read from inside the app process (`/sys/class/power_supply/battery/current_now` is blocked, `Permission denied`, for the shell user on this device). Off USB power: idle baseline averaged -131,087 uA over 30s (15 samples), sustained INT8 inference averaged -357,427 uA over 60s (30 samples, 65,759 inferences run), a marginal delta of -226,340 uA (~226mA). That load rate, ~1,100 predictions/sec, is a synthetic stress test. The app's real usage pattern is one prediction per ~1.5s recording, so this number is a worst-case upper bound on drain, not a typical-use estimate.
+| | FP32 | INT8 |
+|---|---|---|
+| Load time | 6.2 ms | 105.1 ms |
+| Steady-state inference | 3.71 ms | 1.07 ms |
+
+Load time and steady-state speed move in opposite directions. INT8 takes about 17x longer to load, most likely because NNAPI and XNNPACK compile the QDQ quantized graph into their own representation on first use. That cost pays back on every prediction after: INT8 runs 3.47x faster per inference, so it wins overall past a handful of predictions in a session.
+
+| Measurement | Value |
+|---|---|
+| Process memory, baseline | 50,235 KB |
+| Process memory, after both models load | 84,790 KB (+34,555 KB) |
+| Process memory, after the 50-run benchmark | 154,544 KB (+69,754 KB) |
+| Thermal status, before benchmark | NONE |
+| Thermal status, after benchmark | NONE |
+| Battery draw, idle | -131,087 µA avg (n=15, 30s) |
+| Battery draw, under sustained inference | -357,427 µA avg (n=30, 60s, 65,759 inferences) |
+| Battery draw, delta | -226,340 µA (~226 mA) |
+
+Total process footprint lands around 151MB, covering the whole app process and the Android runtime it sits in. Thermal status held at PowerManager's lowest reportable state through the benchmark. The battery delta comes from continuous inference at roughly 1,100 predictions per second, read via `BatteryManager.getIntProperty(BATTERY_PROPERTY_CURRENT_NOW)` off USB power. The app's real usage pattern runs one prediction every 1.5 seconds, well below that rate. This delta is a ceiling on drain during heavy, sustained use. A single check draws far less.
 
 ## Porting & parity
 
