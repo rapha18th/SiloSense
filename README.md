@@ -6,13 +6,11 @@ The output is a working Android app running a 0.11MB static-quantized INT8 ONNX 
 
 ## Why this matters
 
-Postharvest grain loss in Zimbabwe and the wider SADC region runs at 30% or more in many years. Most of it is invisible until the damage is already visible: frass, holes, a musty smell. By the time any of those show up, a meaningful share of the harvest is already gone.
+Postharvest grain loss across Sub-Saharan Africa is a multi-billion-dollar structural problem. The FAO puts the continent's cereal losses after harvest at roughly 20.5%, over US$4 billion in economic value a year, enough grain to feed 48 million people. [1, 2]
 
-Most grain production in the region comes from smallholder farmers. They store their own maize, groundnuts, and small grains at home, or sell through informal traders. The storage is a sack or a brick-and-mud room, not a sealed commercial silo. Extension visits and lab testing rarely reach that scale.
+In Zimbabwe and the wider SADC region, that burden falls on smallholder farmers using traditional, unsealed storage: a sack or a brick-and-mud room, not a sealed commercial silo. Weevils and grain borers destroy kernels from the inside out, invisible until the damage is total. Farmers who cannot see that destruction often sell early, at low floor prices, out of fear the grain will spoil before they can sell it on better terms. [3, 4]
 
-Weevils and grain borers work from inside the kernel outward. The damage stays hidden for weeks before it's obvious by eye. This matters most in years when rainfall has already been poor: postharvest loss erases part of whatever the season's climate variability left standing. Protecting a harvest that already exists is one of the highest-leverage interventions available against food insecurity. The crop is already grown. The only job left is to stop losing it.
-
-SiloSense treats infestation detection as an audio problem instead of a visual one. Insects moving and feeding inside stored grain produce a real acoustic signature, present weeks before any visual sign of damage. A phone's microphone held against a sack picks it up long before a human eye could.
+SiloSense turns that information gap into a data problem it can solve. Insects moving and feeding inside stored grain produce a real acoustic signature, present weeks before any visual sign of damage. An ordinary Android phone, held against a sack, picks that signature up: a farmer screens the grain early, catches loss before it's visible, and can hold the crop for a better price instead of selling in a panic. Saving grain that's already been grown costs less than growing more to replace what's lost. [5, 6]
 
 Three choices make this usable in the places that need it most:
 
@@ -21,6 +19,13 @@ Three choices make this usable in the places that need it most:
 - Private by construction. Audio never leaves the phone.
 
 The whole pipeline, from a 1.5-second recording to a result, runs on-device, offline, in under two seconds.
+
+[1] https://www.heraldonline.co.zw
+[2] https://www.sardc.net
+[3] https://www.fao.org
+[4] https://www.linkedin.com/pulse/post-harvest-losses-africa-when-harvest-success-ends-waste-nwachukwu-ve8mf
+[5] https://ijoear.com
+[6] https://www.ifad.org/en/web/latest/-/tackling-food-loss-for-sustainable-food-systems
 
 ## Screenshots
 
