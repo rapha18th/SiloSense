@@ -39,6 +39,10 @@ submission/
 *.pdf
 NEXT_STEPS.md
 PORTING_NOTES.md
+DEVPOST_SUBMISSION.md
+
+# Logo/wordmark source, not app code.
+branding/
 
 # Claude Code session state, not project content.
 .claude/
